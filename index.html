@@ -4,6 +4,8 @@
   <meta charset="utf-8">
 
   <title>Herodotus</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bowlby+One+SC|Ubuntu">
+  <link rel="stylesheet" href="css/index.css">
 
   <script src="https://unpkg.com/vue"></script>
   <script src="js/index.js"></script>
@@ -11,18 +13,33 @@
 
 <body>
   <div id="app">
-    <h1>{{ question }}</h1>
-    <div v-for="answer in answers">
-      <input
-        type="checkbox"
-        :id="'choice-' + answer.id"
-        :value="answer.id"
-        :disabled="selected_answers.length >= max_answers && selected_answers.indexOf(answer.id) === -1"
-        v-model="selected_answers">
-      <label :for="'choice-' + answer.id">{{ answer.text}}</label>
+    <header class="hero-header">
+      <menu>
+        <h1>Herodotus</h1>
+      </menu>
+    </header>
+    <div class="challenge-space">
+      <section class="challenge">
+        <h1>{{ question }}</h1>
+        <div
+          :class="['choice', selected_answers.indexOf(answer.id) != -1 ? 'selected': '', is_disabled(answer) ? 'locked' : '']"
+          v-for="answer in answers">
+          <input
+            type="checkbox"
+            :id="'choice-' + answer.id"
+            :value="answer.id"
+            :disabled="is_disabled(answer)"
+            v-model="selected_answers">
+          <label :for="'choice-' + answer.id">{{ answer.text}}</label>
+        </div>
+      </section>
+      <section :class="['feedback', feedback_class]">
+        <button class="next-control" :disabled="selected_answers.length < 1" @click="check_answer">Check</button>
+        <div>
+          <h1>{{ feedback }}</h1>
+        </div>
+      </section>
     </div>
-    <button :disabled="selected_answers.length < 1" @click="check_answer">Check</button>
-    <h1>{{ feedback }}</h1>
   </div>
 </body>
 </html>

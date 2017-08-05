@@ -10,11 +10,22 @@ window.addEventListener('load', function () {
       max_answers: 2,
       solution: 'c',
       feedback: '',
+      feedback_class: '',
       selected_answers: []
     },
     methods: {
+      is_disabled: function(answer) {
+        return this.selected_answers.length >= this.max_answers && this.selected_answers.indexOf(answer.id) === -1;
+      },
       check_answer: function() {
-        this.feedback = this.selected_answers.sort().join(',') == this.solution ? "Correct!" : "False!"
+        if (this.selected_answers.sort().join(',') == this.solution) {
+          this.feedback = "Correct!"
+          this.feedback_class = "correct"
+        }
+        else {
+          this.feedback = "False!"
+          this.feedback_class = "false"
+        }
       }
     }
   })
